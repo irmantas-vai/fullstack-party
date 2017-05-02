@@ -1,0 +1,4 @@
+/app/cache/*
+/app/settings/settings.php.dist
+/app/public/src/css/*.css
+/app/public/src/js/*.min.js

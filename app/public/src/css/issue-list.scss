@@ -1,0 +1,311 @@
+//colors
+$color_martinique_approx: #2f3254;
+$color_mercury_approx: #e6e6e6;
+$color_wild_sand_approx: #f5f5f5;
+$color_black_pearl_approx: #0b0f27;
+$white: #fff;
+$color_mine_shaft_approx: #333;
+$color_atlantis_approx: #9c3;
+$black_25: rgba(0,0,0,0.25);
+$color_silver_approx: #bfbfbf;
+
+//fonts
+$font_0: Roboto;
+$font_1: sans-serif;
+
+//urls
+$url_0: url(../img/testio-black.png);
+$url_1: url(../img/issues.jpg);
+$url_2: url(../img/testio.png);
+
+//@extend-elements
+//original selectors
+//html, body
+%extend_1 {
+  height: 100vh;
+  font-family: $font_0, $font_1;
+  margin: 0;
+  padding: 0;
+}
+
+//original selectors
+//.issue-list-header .active-issues, .issue-list-header .closed-issues
+%extend_2 {
+  float: left;
+  width: 50%;
+  //Instead of the line below you could use @include box-sizing($bs)
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+//original selectors
+//.issue-list-header .active-issues a, .issue-list-header .closed-issues a
+%extend_3 {
+  text-decoration: none;
+  opacity: 0.5;
+  cursor: default;
+  color: $color_mine_shaft_approx;
+}
+
+//original selectors
+//.issue-pagining a, .issue-pagining span
+%extend_4 {
+  border-radius: 35px;
+  width: 35px;
+  line-height: 35px;
+  display: inline-block;
+  text-align: center;
+}
+
+//original selectors
+//.issue-pagining a.nav, .issue-pagining a.nav:hover
+%extend_5 {
+  color: $color_atlantis_approx;
+  width: auto;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+
+html {
+  @extend %extend_1;
+}
+body {
+  @extend %extend_1;
+}
+.issues-header {
+  height: 15vh;
+  top: 0;
+  left: 0;
+  background-image: $url_0;
+  background-position: calc(7.5vh - 15px) center;
+  background-size: auto 30px;
+  background-repeat: no-repeat;
+  .logout {
+    padding-left: 26px;
+    color: $color_martinique_approx;
+    height: 16px;
+    line-height: 16px;
+    display: block;
+    position: absolute;
+    right: calc(7.5vh - 15px);
+    top: calc(15vh/2 - 16px/2);
+  }
+}
+.issues-left-col {
+  height: 85vh;
+  width: 50vw;
+  position: absolute;
+  top: 15vh;
+  left: 0;
+  border-top: 1px solid $color_mercury_approx;
+  background: $color_wild_sand_approx;
+  overflow-y: auto;
+}
+.issues-right-col {
+  height: 85vh;
+  width: 50vw;
+  position: absolute;
+  top: 15vh;
+  left: 50vw;
+  background: $color_black_pearl_approx;
+  color: $white;
+  .bg {
+    background-image: $url_1;
+    background-position: center center;
+    background-size: 150% auto;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+    position: absolute;
+    height: 85vh;
+    width: 100%;
+  }
+  .content {
+    position: relative;
+    margin: 0 auto;
+    height: 128px;
+    line-height: 64px;
+    top: calc(100vh/2 - 130px);
+    text-align: center;
+  }
+  span {
+    margin: 0 auto;
+    font-size: 20px;
+    line-height: 20px;
+    height: 20px;
+    display: inline-block;
+    padding-right: 85px;
+    background-image: $url_2;
+    background-position: right center;
+    background-size: auto 20px;
+    background-repeat: no-repeat;
+  }
+  h2 {
+    font-size: 4vw;
+    line-height: 1.175em;
+    font-weight: 100;
+    margin: 0;
+  }
+}
+.wrapper {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+.issue-list-header {
+  font-size: 14px;
+  line-height: 30px;
+  padding: 20px;
+  .active-issues {
+    @extend %extend_2;
+    text-align: right;
+    a {
+      @extend %extend_3;
+      &:hover {
+        color: $color_atlantis_approx;
+        cursor: pointer;
+      }
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+  .closed-issues {
+    @extend %extend_2;
+    a {
+      @extend %extend_3;
+      &:hover {
+        color: $color_atlantis_approx;
+        cursor: pointer;
+      }
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+  .glyphicon {
+    width: 1em;
+    height: 1em;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: text-top;
+  }
+}
+.issue-list {
+  padding: 0 20px;
+  .issue-list-item {
+    padding: 30px 50px;
+    border-radius: 0.2em;
+    background-color: $white;
+    box-shadow: 0 1px 1px $black_25;
+    margin-bottom: 20px;
+    position: relative;
+    .status {
+      top: 30px;
+      position: absolute;
+      left: 20px;
+      .glyphicon {
+        font-size: 16px;
+      }
+    }
+    .comments {
+      top: 30px;
+      position: absolute;
+      right: 20px;
+      opacity: 0.5;
+      color: $color_mine_shaft_approx;
+      .glyphicon {
+        font-size: 16px;
+        vertical-align: middle;
+      }
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+    .glyphicon-exclamation-sign {
+      color: $color_atlantis_approx;
+    }
+    .glyphicon-ok-circle {
+      opacity: 0.5;
+    }
+    .title {
+      font-size: 15px;
+      line-height: 1.4em;
+      margin: 0;
+      a {
+        color: $color_mine_shaft_approx;
+      }
+    }
+    .info {
+      margin-top: 15px;
+      font-size: 13px;
+      color: $color_silver_approx;
+      a {
+        color: $color_atlantis_approx;
+      }
+    }
+  }
+}
+.issue-pagining {
+  text-align: center;
+  white-space: nowrap;
+  cursor: default;
+  padding-bottom: 20px;
+  a {
+    @extend %extend_4;
+    background-color: $white;
+    text-decoration: none;
+    box-shadow: 0 1px 1px $black_25;
+    cursor: pointer;
+    margin: 0 5px;
+    color: $color_mine_shaft_approx;
+    &:hover {
+      color: $white;
+      background-color: $color_atlantis_approx;
+    }
+    &.active {
+      color: $white;
+      background-color: $color_atlantis_approx;
+    }
+    &.nav {
+      @extend %extend_5;
+      &:hover {
+        @extend %extend_5;
+        text-decoration: underline;
+      }
+    }
+  }
+  span {
+    @extend %extend_4;
+  }
+}
+@media(max-width: 680px) {
+  .issue-pagining {
+    a {
+      display: none !important;
+      &.nav {
+        display: inline-block !important;
+      }
+    }
+    span {
+      display: none !important;
+    }
+  }
+  .issues-right-col {
+    display: none;
+  }
+  .issues-left-col {
+    width: 100vw;
+  }
+}
+@media(orientation:portrait) {
+  .issues-right-col {
+    display: none;
+  }
+  .issues-left-col {
+    width: 100vw;
+  }
+}

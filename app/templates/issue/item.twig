@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Testio</title>
+    <link href="//fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/src/css/issue-item.css" rel="stylesheet">
+</head>
+<body>
+<div class="issues-header">
+    <a href="/auth/logout" class="logout">
+        <i class="glyphicon glyphicon-log-out"></i>
+        Logout
+    </a>
+</div>
+<div class="wrapper">
+    <div class="content">
+        <div class="header">
+            <a href="" onclick="history.back(); return false;" class="history-back">
+                <i class="glyphicon"></i>
+                Back to issues
+            </a>
+        </div>
+        <div class="issue-item">
+            <div class="title">{{ issue.title|escape }} <span>#{{ issue.number|escape }}</span></div>
+            <div class="info">
+                <span class="status">
+                    <span class="glyphicon glyphicon-{% if issue.state == 'open' %}exclamation-sign{% else %}ok-circle{% endif %}"></span>
+                    {{ issue.state|escape }}
+                </span> <a href="#">{{ issue.user.login|escape }}</a> opened this issue {{ issue.opened|escape }} · {{ issue.comments|escape }} comments
+            </div>
+        </div>
+        {% for comment in comments %}
+            <div class="comment-item">
+                <div class="head">
+                    <span class="triangle-grey"></span>
+                    <span class="triangle"></span>
+                    <div class="photo" style="background-image: url('{{ comment.user.avatar_url|escape }}')"></div>
+                    <a href="">{{ comment.user.login|escape }}</a>
+                    <span>commented {{ comment.opened|escape }} ago</span>
+                </div>
+                <div class="content">
+                    <p>{{ comment.body|escape }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

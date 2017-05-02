@@ -1,0 +1,17 @@
+<?php
+return [
+    'displayErrorDetails' => false,
+    'twig' => [
+        'tplPpath' => realpath(dirname(__FILE__) . '/../templates'),
+        'settings' => [
+         'cache' => realpath(dirname(__FILE__) . '/../cache/templates'),
+        ],
+    ],
+    'github' => [
+        'clientId' => '',
+        'clientSecret' => '',
+    ],
+    'issue' => [
+        'issuesPerPage' => 20,
+    ],
+];
