@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Views\Twig;
 
 /**
  * Class IndexController
@@ -12,17 +12,20 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class IndexController
 {
+
     /**
-     * @var ContainerInterface
+     * @var Twig
      */
-    protected $container;
+    protected $view;
+
 
     /**
      * IndexController constructor.
-     * @param ContainerInterface $container
+     * @param Twig $view
      */
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
+    public function __construct(Twig $view)
+    {
+        $this->view = $view;
     }
 
     /**
@@ -33,6 +36,6 @@ class IndexController
      */
     public function indexAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        return $this->container->get('view')->render($response, 'index.twig');
+        return $this->view->render($response, 'index.twig');
     }
 }

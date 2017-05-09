@@ -1,26 +1,26 @@
 //colors
-$color_black_pearl_approx: #0b0f27;
-$color_mine_shaft_approx: #333;
-$color_atlantis_approx: #9fd533;
+$color-black-pearl-approx: #0b0f27;
+$color-mine-shaft-approx: #333;
+$color-tlantis-approx: #9fd533;
 $white: #fff;
-$color_pistachio_approx: #86b300;
+$color-pistachio-approx: #86b300;
 
 //fonts
-$font_0: Roboto;
-$font_1: sans-serif;
+$font-roboto: Roboto;
+$font-sans-serif: sans-serif;
 
 //urls
-$url_0: url(../img/home.jpg);
-$url_1: url(../img/testio.png);
+$url-home: url(../img/home.jpg);
+$url-testio: url(../img/testio.png);
 
 //@extend-elements
 //original selectors
 //html, body
 %extend_1 {
   height: 100vh;
-  font-family: $font_0, $font_1;
-  background-color: $color_black_pearl_approx;
-  color: $color_mine_shaft_approx;
+  font-family: $font-roboto, $font-sans-serif;
+  background-color: $color-black-pearl-approx;
+  color: $color-mine-shaft-approx;
   padding: 0;
   margin: 0;
 }
@@ -34,7 +34,7 @@ body {
 }
 .bg {
   height: 100vh;
-  background-image: $url_0;
+  background-image: $url-home;
   background-position: center center;
   background-size: 100vw auto;
   background-repeat: no-repeat;
@@ -50,7 +50,7 @@ body {
 .logo {
   width: 370px;
   height: 100px;
-  background-image: $url_1;
+  background-image: $url-testio;
   background-position: center center;
   background-size: 245px auto;
   background-repeat: no-repeat;
@@ -83,7 +83,7 @@ a.button {
   position: relative;
   margin: 0 auto;
   top: calc(50vh - 56px/2);
-  background: $color_atlantis_approx;
+  background: $color-tlantis-approx;
   color: $white;
   display: block;
   text-align: center;
@@ -93,11 +93,11 @@ a.button {
   font-weight: bold;
   &:hover {
     text-decoration: none;
-    background: $color_pistachio_approx;
+    background: $color-pistachio-approx;
   }
   &:link {
     text-decoration: none;
-    background: $color_pistachio_approx;
+    background: $color-pistachio-approx;
   }
 }
 

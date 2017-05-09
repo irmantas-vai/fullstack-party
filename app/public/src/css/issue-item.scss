@@ -1,59 +1,59 @@
 //colors
-$color_atlantis_approx: #9c3;
-$color_martinique_approx: #2f3254;
-$color_mercury_approx: #e6e6e6;
-$color_wild_sand_approx: #f5f5f5;
+$color-atlantis-approx: #9c3;
+$color-martinique-approx: #2f3254;
+$color-mercury-approx: #e6e6e6;
+$color-wild-sand-approx: #f5f5f5;
 $white: white;
-$black_25: rgba(0,0,0,0.25);
-$color_mine_shaft_approx: #333;
-$color_mountain_mist_approx: #999;
-$color_silver_approx: #bfbfbf;
-$color_storm_dust_approx: #666;
+$black-25: rgba(0,0,0,0.25);
+$color-mine-shaft-approx: #333;
+$color-mountain-mist-approx: #999;
+$color-silver-approx: #bfbfbf;
+$color-storm-dust-approx: #666;
 
 //fonts
-$font_0: Roboto;
-$font_1: sans-serif;
+$font-roboto: Roboto;
+$font-sans-serif: sans-serif;
 
 //urls
-$url_0: url(../img/testio-black.png);
+$url-testio-black: url(../img/testio-black.png);
 
 //@extend-elements
 //original selectors
 //html, body
-%extend_1 {
+%extend-1 {
   height: 100vh;
-  font-family: $font_0, $font_1;
+  font-family: $font-roboto, $font-sans-serif;
   margin: 0;
   padding: 0;
 }
 
 
 html {
-  @extend %extend_1;
+  @extend %extend-1;
 }
 body {
-  @extend %extend_1;
+  @extend %extend-1;
 }
 a {
-  color: $color_atlantis_approx;
+  color: $color-atlantis-approx;
   &:hover {
-    color: $color_atlantis_approx;
+    color: $color-atlantis-approx;
   }
   &:link {
-    color: $color_atlantis_approx;
+    color: $color-atlantis-approx;
   }
 }
 .issues-header {
   height: 15vh;
   top: 0;
   left: 0;
-  background-image: $url_0;
+  background-image: $url-testio-black;
   background-position: calc(7.5vh - 15px) center;
   background-size: auto 30px;
   background-repeat: no-repeat;
   .logout {
     padding-left: 26px;
-    color: $color_martinique_approx;
+    color: $color-martinique-approx;
     height: 16px;
     line-height: 16px;
     display: block;
@@ -68,8 +68,8 @@ a {
   position: absolute;
   top: 15vh;
   left: 0;
-  border-top: 1px solid $color_mercury_approx;
-  background: $color_wild_sand_approx;
+  border-top: 1px solid $color-mercury-approx;
+  background: $color-wild-sand-approx;
   overflow-y: auto;
 }
 .content {
@@ -95,26 +95,26 @@ a {
   padding: 25px 35px;
   border-radius: 0.2em;
   background-color: $white;
-  box-shadow: 0 1px 1px $black_25;
+  box-shadow: 0 1px 1px $black-25;
   margin-bottom: 20px;
   position: relative;
   .title {
     font-size: 30px;
-    color: $color_mine_shaft_approx;
+    color: $color-mine-shaft-approx;
     line-height: 1.5em;
     margin-bottom: 20px;
     span {
-      color: $color_mountain_mist_approx;
+      color: $color-mountain-mist-approx;
       margin-left: 20px;
     }
   }
   .info {
-    color: $color_silver_approx;
+    color: $color-silver-approx;
   }
   .status {
     height: 28px;
     line-height: 28px;
-    background: $color_atlantis_approx;
+    background: $color-atlantis-approx;
     color: $white;
     display: inline-block;
     padding: 0 12px 0 8px;
@@ -127,16 +127,16 @@ a {
 .comment-item {
   border-radius: 0.2em;
   background-color: $white;
-  box-shadow: 0 1px 1px $black_25;
+  box-shadow: 0 1px 1px $black-25;
   margin-bottom: 20px;
   margin-left: 84px;
   .head {
     height: 64px;
     line-height: 64px;
     position: relative;
-    border-bottom: 1px solid $color_mercury_approx;
+    border-bottom: 1px solid $color-mercury-approx;
     padding: 0 20px;
-    color: $color_silver_approx;
+    color: $color-silver-approx;
   }
   .triangle {
     width: 0;
@@ -153,7 +153,7 @@ a {
     height: 0;
     border-style: solid;
     border-width: 10px 10px 10px 0;
-    border-color: transparent $color_mercury_approx transparent transparent;
+    border-color: transparent $color-mercury-approx transparent transparent;
     position: absolute;
     top: 24px;
     left: -10px;
@@ -171,7 +171,7 @@ a {
   }
   .content {
     padding: 25px 30px;
-    color: $color_storm_dust_approx;
+    color: $color-storm-dust-approx;
     font-size: 13px;
   }
 }

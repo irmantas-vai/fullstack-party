@@ -5,6 +5,10 @@ namespace App\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use App\Service\GithubService;
+use App\Service\IssueService;
+use Slim\Views\Twig;
+use Slim\Router;
 
 /**
  * Class IssueController
@@ -12,17 +16,37 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class IssueController
 {
+
     /**
-     * @var ContainerInterface
+     * @var Twig
      */
-    protected $container;
+    protected $view;
+    /**
+     * @var IssueService
+     */
+    protected $issueService;
+    /**
+     * @var GithubService
+     */
+    protected $githubService;
+    /**
+     * @var Router
+     */
+    protected $router;
 
     /**
      * IssueController constructor.
-     * @param ContainerInterface $container
+     * @param Twig $view
+     * @param IssueService $issueService
+     * @param GithubService $githubService
+     * @param Router $router
      */
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
+    public function __construct(Twig $view, GithubService $githubService, IssueService $issueService, Router $router)
+    {
+        $this->view = $view;
+        $this->issueService = $issueService;
+        $this->githubService = $githubService;
+        $this->router = $router;
     }
 
     /**
@@ -31,23 +55,22 @@ class IssueController
      * @param $args
      * @return ResponseInterface
      */
-    protected function _listAction(ServerRequestInterface $request, ResponseInterface $response, $args)
+    protected function listAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        if(($page = (int) $request->getAttribute('args')) === 0)
-        {
+        if (($page = (int)$request->getAttribute('args')) === 0) {
             $page++;
         }
-        $this->container->get('serviceIssue')->getTotalIssues('open');
+        $this->issueService->getTotalIssues('open');
         $tplData = [
-            'openIssues' => $this->container->get('serviceIssue')->getTotalIssues('open'),
-            'closedIssues' => $this->container->get('serviceIssue')->getTotalIssues('closed'),
-            'list' => $this->container->get('serviceIssue')->getIssues($page),
-            'totalPages' => $this->container->get('serviceIssue')->getTotalPages($page),
+            'openIssues' => $this->issueService->getTotalIssues('open'),
+            'closedIssues' => $this->issueService->getTotalIssues('closed'),
+            'list' => $this->issueService->getIssues($page),
+            'totalPages' => $this->issueService->getTotalPages($page),
             'currentPage' => $page,
-            'issueUri' => $this->container->get('router')->pathFor('issue', ['action' => 'item']),
-            'issuesUri' => $this->container->get('router')->pathFor('issue', ['action' => 'list']),
+            'issueUri' => $this->router->pathFor('issue', ['action' => 'item']),
+            'issuesUri' => $this->router->pathFor('issue', ['action' => 'list']),
         ];
-        return $this->container->get('view')->render($response, 'issue/list.twig', $tplData);
+        return $this->view->render($response, 'issue/list.twig', $tplData);
     }
 
     /**
@@ -56,39 +79,37 @@ class IssueController
      * @param $args
      * @return ResponseInterface
      */
-    protected function _itemAction(ServerRequestInterface $request, ResponseInterface $response, $args)
+    protected function itemAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
         $path = $request->getAttribute('args');
-        $issue = $this->container->get('serviceIssue')->getIssue($path);
+        $issue = $this->issueService->getIssue($path);
         $comments = [];
-        if($issue->comments)
-        {
-            $comments = $this->container->get('serviceIssue')->getIssueComments($path);
+        if ($issue->comments) {
+            $comments = $this->issueService->getIssueComments($path);
         }
         $tplData = [
             'issue' => $issue,
             'comments' => $comments,
         ];
-        return $this->container->get('view')->render($response, 'issue/item.twig', $tplData);
+
+        return $this->view->render($response, 'issue/item.twig', $tplData);
     }
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param $args
-     * @return ResponseInterface
+     * @return mixed
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $githubService = $this->container->get('serviceGithub');
-        if($githubService->checkAuth() !== true)
-        {
-            return $response->withRedirect($this->container->get('router')->pathFor('home'));
+
+        if ($this->githubService->checkAuth() !== true) {
+            return $response->withRedirect($this->router->pathFor('home'));
         }
         $action = $request->getAttribute('action');
-        if(method_exists($this, "_{$action}Action"))
-        {
-            return $this->{"_{$action}Action"}($request, $response, $args);
+        if (method_exists($this, "{$action}Action")) {
+            return $this->{"{$action}Action"}($request, $response, $args);
         }
     }
 }

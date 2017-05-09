@@ -1,36 +1,36 @@
 //colors
-$color_martinique_approx: #2f3254;
-$color_mercury_approx: #e6e6e6;
-$color_wild_sand_approx: #f5f5f5;
-$color_black_pearl_approx: #0b0f27;
+$color-martinique-approx: #2f3254;
+$color-mercury-approx: #e6e6e6;
+$color-wild-sand-approx: #f5f5f5;
+$color-black-pearl-approx: #0b0f27;
 $white: #fff;
-$color_mine_shaft_approx: #333;
-$color_atlantis_approx: #9c3;
-$black_25: rgba(0,0,0,0.25);
-$color_silver_approx: #bfbfbf;
+$color-mine-shaft-approx: #333;
+$color-atlantis-approx: #9c3;
+$black-25: rgba(0,0,0,0.25);
+$color-silver-approx: #bfbfbf;
 
 //fonts
-$font_0: Roboto;
-$font_1: sans-serif;
+$font-roboto: Roboto;
+$font-sans-serif: sans-serif;
 
 //urls
-$url_0: url(../img/testio-black.png);
-$url_1: url(../img/issues.jpg);
-$url_2: url(../img/testio.png);
+$url-testio-black: url(../img/testio-black.png);
+$url-isues: url(../img/issues.jpg);
+$url-testio: url(../img/testio.png);
 
 //@extend-elements
 //original selectors
 //html, body
-%extend_1 {
+%extend-1 {
   height: 100vh;
-  font-family: $font_0, $font_1;
+  font-family: $font-roboto, $font-sans-serif;
   margin: 0;
   padding: 0;
 }
 
 //original selectors
 //.issue-list-header .active-issues, .issue-list-header .closed-issues
-%extend_2 {
+%extend-2 {
   float: left;
   width: 50%;
   //Instead of the line below you could use @include box-sizing($bs)
@@ -40,16 +40,16 @@ $url_2: url(../img/testio.png);
 
 //original selectors
 //.issue-list-header .active-issues a, .issue-list-header .closed-issues a
-%extend_3 {
+%extend-3 {
   text-decoration: none;
   opacity: 0.5;
   cursor: default;
-  color: $color_mine_shaft_approx;
+  color: $color-mine-shaft-approx;
 }
 
 //original selectors
 //.issue-pagining a, .issue-pagining span
-%extend_4 {
+%extend-4 {
   border-radius: 35px;
   width: 35px;
   line-height: 35px;
@@ -59,8 +59,8 @@ $url_2: url(../img/testio.png);
 
 //original selectors
 //.issue-pagining a.nav, .issue-pagining a.nav:hover
-%extend_5 {
-  color: $color_atlantis_approx;
+%extend-5 {
+  color: $color-atlantis-approx;
   width: auto;
   background-color: transparent;
   box-shadow: none;
@@ -68,22 +68,22 @@ $url_2: url(../img/testio.png);
 
 
 html {
-  @extend %extend_1;
+  @extend %extend-1;
 }
 body {
-  @extend %extend_1;
+  @extend %extend-1;
 }
 .issues-header {
   height: 15vh;
   top: 0;
   left: 0;
-  background-image: $url_0;
+  background-image: $url-testio-black;
   background-position: calc(7.5vh - 15px) center;
   background-size: auto 30px;
   background-repeat: no-repeat;
   .logout {
     padding-left: 26px;
-    color: $color_martinique_approx;
+    color: $color-martinique-approx;
     height: 16px;
     line-height: 16px;
     display: block;
@@ -98,8 +98,8 @@ body {
   position: absolute;
   top: 15vh;
   left: 0;
-  border-top: 1px solid $color_mercury_approx;
-  background: $color_wild_sand_approx;
+  border-top: 1px solid $color-mercury-approx;
+  background: $color-wild-sand-approx;
   overflow-y: auto;
 }
 .issues-right-col {
@@ -108,10 +108,10 @@ body {
   position: absolute;
   top: 15vh;
   left: 50vw;
-  background: $color_black_pearl_approx;
+  background: $color-black-pearl-approx;
   color: $white;
   .bg {
-    background-image: $url_1;
+    background-image: $url-isues;
     background-position: center center;
     background-size: 150% auto;
     background-repeat: no-repeat;
@@ -135,7 +135,7 @@ body {
     height: 20px;
     display: inline-block;
     padding-right: 85px;
-    background-image: $url_2;
+    background-image: $url-testio;
     background-position: right center;
     background-size: auto 20px;
     background-repeat: no-repeat;
@@ -159,12 +159,12 @@ body {
   line-height: 30px;
   padding: 20px;
   .active-issues {
-    @extend %extend_2;
+    @extend %extend-2;
     text-align: right;
     a {
-      @extend %extend_3;
+      @extend %extend-3;
       &:hover {
-        color: $color_atlantis_approx;
+        color: $color-atlantis-approx;
         cursor: pointer;
       }
       &.active {
@@ -173,11 +173,11 @@ body {
     }
   }
   .closed-issues {
-    @extend %extend_2;
+    @extend %extend-2;
     a {
-      @extend %extend_3;
+      @extend %extend-3;
       &:hover {
-        color: $color_atlantis_approx;
+        color: $color-atlantis-approx;
         cursor: pointer;
       }
       &.active {
@@ -199,7 +199,7 @@ body {
     padding: 30px 50px;
     border-radius: 0.2em;
     background-color: $white;
-    box-shadow: 0 1px 1px $black_25;
+    box-shadow: 0 1px 1px $black-25;
     margin-bottom: 20px;
     position: relative;
     .status {
@@ -215,7 +215,7 @@ body {
       position: absolute;
       right: 20px;
       opacity: 0.5;
-      color: $color_mine_shaft_approx;
+      color: $color-mine-shaft-approx;
       .glyphicon {
         font-size: 16px;
         vertical-align: middle;
@@ -226,7 +226,7 @@ body {
       }
     }
     .glyphicon-exclamation-sign {
-      color: $color_atlantis_approx;
+      color: $color-atlantis-approx;
     }
     .glyphicon-ok-circle {
       opacity: 0.5;
@@ -236,15 +236,15 @@ body {
       line-height: 1.4em;
       margin: 0;
       a {
-        color: $color_mine_shaft_approx;
+        color: $color-mine-shaft-approx;
       }
     }
     .info {
       margin-top: 15px;
       font-size: 13px;
-      color: $color_silver_approx;
+      color: $color-silver-approx;
       a {
-        color: $color_atlantis_approx;
+        color: $color-atlantis-approx;
       }
     }
   }
@@ -255,31 +255,31 @@ body {
   cursor: default;
   padding-bottom: 20px;
   a {
-    @extend %extend_4;
+    @extend %extend-4;
     background-color: $white;
     text-decoration: none;
-    box-shadow: 0 1px 1px $black_25;
+    box-shadow: 0 1px 1px $black-25;
     cursor: pointer;
     margin: 0 5px;
-    color: $color_mine_shaft_approx;
+    color: $color-mine-shaft-approx;
     &:hover {
       color: $white;
-      background-color: $color_atlantis_approx;
+      background-color: $color-atlantis-approx;
     }
     &.active {
       color: $white;
-      background-color: $color_atlantis_approx;
+      background-color: $color-atlantis-approx;
     }
     &.nav {
-      @extend %extend_5;
+      @extend %extend-5;
       &:hover {
-        @extend %extend_5;
+        @extend %extend-5;
         text-decoration: underline;
       }
     }
   }
   span {
-    @extend %extend_4;
+    @extend %extend-4;
   }
 }
 @media(max-width: 680px) {

@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use App\Service\GithubService;
+use Slim\Router;
 
 /**
  * Class AuthController
@@ -12,33 +13,42 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class AuthController
 {
+
     /**
-     * @var ContainerInterface
+     * @var Router
      */
-    protected $container;
+    protected $router;
+    /**
+     * @var GithubService
+     */
+    protected $githubService;
+
 
     /**
      * AuthController constructor.
-     * @param ContainerInterface $container
+     * @param GithubService $githubService
+     * @param Router $router
      */
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
+    public function __construct(GithubService $githubService, Router $router)
+    {
+        $this->router = $router;
+        $this->githubService = $githubService;
     }
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param $args
-     * @return ResponseInterface
+     * @return mixed
      */
     public function loginAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $githubService = $this->container->get('serviceGithub');
-        if($githubService->checkAuth() !== false)
-        {
-            return $response->withRedirect($this->container->get('router')->pathFor('issue', ['action' => 'list']));
+        if ($this->githubService->checkAuth() !== false) {
+            return $response->withRedirect($this->router->pathFor('issue', ['action' => 'list']));
         }
-        $githubService->login($request->getUri()->getBaseUrl() . $this->container->get('router')->pathFor('authCallback'));
+
+        $url = $request->getUri()->getBaseUrl() . $this->router->pathFor('authCallback');
+        $this->githubService->login($url);
     }
 
     /**
@@ -49,9 +59,10 @@ class AuthController
      */
     public function logoutAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $this->container->get('serviceGithub')->logout();
-        return $response->withRedirect($this->container->get('router')->pathFor('home'));
+        $this->githubService->logout();
+        return $response->withRedirect($this->router->pathFor('home'));
     }
+
 
     /**
      * @param ServerRequestInterface $request
@@ -61,12 +72,10 @@ class AuthController
      */
     public function callbackAction(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $githubService = $this->container->get('serviceGithub');
-        if($githubService->checkAuth() !== false)
-        {
-            return $response->withRedirect($this->container->get('router')->pathFor('authLogin'));
+        if ($this->githubService->checkAuth() !== false) {
+            return $response->withRedirect($this->router->pathFor('authLogin'));
         }
-        $githubService->storeToken();
-        return $response->withRedirect($this->container->get('router')->pathFor('issue', ['action' => 'list']));
+        $this->githubService->storeToken();
+        return $response->withRedirect($this->router->pathFor('issue', ['action' => 'list']));
     }
 }

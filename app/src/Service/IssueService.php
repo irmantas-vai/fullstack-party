@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Service;
 
-use Milo\Github;
-use Pimple\Container;
+use Westsworld\TimeAgo;
 
 /**
  * Class IssueService
@@ -11,26 +11,35 @@ use Pimple\Container;
 class IssueService
 {
     /**
-     * @var
+     * @var array
      */
     protected $settings;
+
     /**
      * @var
      */
     protected $response;
+
     /**
-     * @var
+     * @var mixed
      */
     protected $user;
 
     /**
-     * IssueService constructor.
-     * @param Container $container
+     * @var GithubService
      */
-    public function __construct(Container $container)
+    protected $githubService;
+
+
+    /**
+     * IssueService constructor.
+     * @param GithubService $githubService
+     * @param array $settings
+     */
+    public function __construct(GithubService $githubService, array $settings)
     {
-        $this->settings = $container->get('settings')['issue'];
-        $this->api = $container->get('serviceGithub');
+        $this->settings = $settings;
+        $this->githubService = $githubService;
         $this->user = $this->getUser();
     }
 
@@ -39,7 +48,7 @@ class IssueService
      */
     public function getUser()
     {
-        return $this->api->call('/user')->getData();
+        return $this->githubService->call('/user')->getData();
     }
 
     /**
@@ -55,11 +64,10 @@ class IssueService
             'page' => $page,
             'per_page' => $this->settings['issuesPerPage'],
         ];
-        $this->api->addFilters($filters);
-        $issues = $this->api->call('/issues')->getData();
-        foreach ($issues as &$issue)
-        {
-            $issue->opened = $this->_calcTime($issue->created_at);
+        $this->githubService->addFilters($filters);
+        $issues = $this->githubService->call('/issues')->getData();
+        foreach ($issues as &$issue) {
+            $issue->opened = $this->calcTime($issue->created_at);
             $issue->path = str_replace('https://api.github.com/', '', $issue->url);
         }
         return $issues;
@@ -71,8 +79,8 @@ class IssueService
      */
     public function getIssue($path)
     {
-        $issue = $this->api->call("/{$path}")->getData();
-        $issue->opened = $this->_calcTime($issue->created_at);
+        $issue = $this->githubService->call("/{$path}")->getData();
+        $issue->opened = $this->calcTime($issue->created_at);
         return $issue;
     }
 
@@ -82,10 +90,9 @@ class IssueService
      */
     public function getIssueComments($path)
     {
-        $comments = $this->api->call("/{$path}/comments")->getData();
-        foreach ($comments as &$comment)
-        {
-            $comment->opened = $this->_calcTime($comment->created_at);
+        $comments = $this->githubService->call("/{$path}/comments")->getData();
+        foreach ($comments as &$comment) {
+            $comment->opened = $this->calcTime($comment->created_at);
         }
         return $comments;
     }
@@ -96,7 +103,7 @@ class IssueService
      */
     public function getTotalIssues($state)
     {
-        $data = $this->api
+        $data = $this->githubService
             ->call("/search/issues?q=type:issue+state:{$state}+user:{$this->user->login}")
             ->getData();
         return $data->total_count;
@@ -108,8 +115,7 @@ class IssueService
      */
     public function getTotalPages($current)
     {
-        if(($total = $this->api->getTotalPages()) < $current)
-        {
+        if (($total = $this->githubService->getTotalPages()) < $current) {
             return $current;
         }
         return $total;
@@ -119,9 +125,9 @@ class IssueService
      * @param $time
      * @return string
      */
-    protected function _calcTime($time)
+    protected function calcTime($time)
     {
-        $timeAgo = new \Westsworld\TimeAgo();
+        $timeAgo = new TimeAgo();
         return $timeAgo->inWords($time);
     }
 }

@@ -1,7 +1,12 @@
 <?php
+
 namespace App\Service;
 
-use Milo\Github;
+use Milo\Github\OAuth\Configuration;
+use Milo\Github\Storages\SessionStorage;
+use Milo\Github\OAuth\Login;
+use Milo\Github\Api;
+use Milo\Github\Paginator;
 
 /**
  * Class GithubService
@@ -14,11 +19,11 @@ class GithubService
      */
     protected $settings;
     /**
-     * @var Github\Api
+     * @var Api
      */
     protected $api;
     /**
-     * @var Github\OAuth\Login
+     * @var Login
      */
     protected $login;
     /**
@@ -30,19 +35,19 @@ class GithubService
      */
     protected $filters = [];
 
+
     /**
      * GithubService constructor.
-     * @param $container
+     * @param array $settings
      */
-    public function __construct($container)
+    public function __construct(array $settings)
     {
-        $this->settings = $container->get('settings')['github'];
-        $this->api = new Github\Api;
-        $config = new Github\OAuth\Configuration($this->settings['clientId'], $this->settings['clientSecret'], ['public_repo']);
-        $storage = new Github\Storages\SessionStorage;
-        $this->login = new Github\OAuth\Login($config, $storage);
-        if($this->login->hasToken())
-        {
+        $this->settings = $settings;
+        $this->api = new Api;
+        $config = new Configuration($this->settings['clientId'], $this->settings['clientSecret'], ['public_repo']);
+        $storage = new SessionStorage;
+        $this->login = new Login($config, $storage);
+        if ($this->login->hasToken()) {
             $this->api->setToken($this->login->getToken());
         }
     }
@@ -76,11 +81,11 @@ class GithubService
      */
     public function checkAuth()
     {
-        return (bool) $this->api->getToken();
+        return (bool)$this->api->getToken();
     }
 
     /**
-     * @return Github\Api
+     * @return Api
      */
     public function getApi()
     {
@@ -157,10 +162,9 @@ class GithubService
     public function getTotalPages()
     {
         $headers = $this->getHeaders();
-        if(!empty($headers['link']))
-        {
-            $link = Github\Paginator::parseLink($headers['link'], 'last');
-            return Github\Paginator::parsePage($link);
+        if (!empty($headers['link'])) {
+            $link = Paginator::parseLink($headers['link'], 'last');
+            return Paginator::parsePage($link);
         }
         return 1;
     }
